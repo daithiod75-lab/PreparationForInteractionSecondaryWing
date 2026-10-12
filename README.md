@@ -1,0 +1,2 @@
+# PreparationForInteractionSecondaryWing
+交流をする前に準備用サイト。
