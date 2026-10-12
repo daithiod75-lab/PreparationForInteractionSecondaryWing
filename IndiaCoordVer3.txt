@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japan-India Cultural Exchange Prep Workbook</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+        }
+        .tab-btn.active {
+            border-bottom: 3px solid #2563eb;
+            color: #2563eb;
+            font-weight: 600;
+        }
+        /* Custom scrollbar for textareas */
+        textarea::-webkit-scrollbar {
+            width: 6px;
+        }
+        textarea::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <header class="bg-indigo-900 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <span class="text-xs uppercase tracking-widest text-indigo-300 font-semibold">Rishikul Vidyapeeth Sonepat Exchange</span>
+                <h1 class="text-2xl font-bold flex items-center gap-2">
+                    <span>🇮🇳 🇯🇵 <span class="lang-en">Your Cultural Exchange Prep Hub</span><span class="lang-ja hidden">日印文化交流 準備ワークブック</span></span>
+                </h1>
+                <p class="text-xs text-indigo-200 mt-1">
+                    <span class="lang-en">Personal Preparation Guide & Interactive Notes for Rishikul Vidyapeeth Session</span>
+                    <span class="lang-ja hidden">リシクル・ビディヤピート校との交流会に向けたあなたのための準備ガイド＆メモ帳</span>
+                </p>
+            </div>
+            
+            <div class="flex items-center gap-2 md:gap-3 flex-wrap">
+                <!-- Language Toggle Button -->
+                <button onclick="toggleLanguage()" class="bg-amber-500 hover:bg-amber-600 text-slate-900 text-xs md:text-sm px-3 py-2 rounded-lg font-bold transition flex items-center gap-1.5 shadow">
+                    <i class="fa-solid fa-language text-base"></i>
+                    <span id="lang-btn-text">日本語に切り替え</span>
+                </button>
+
+                <button onclick="saveAllNotes()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs md:text-sm px-3 py-2 rounded-lg font-medium transition flex items-center gap-1.5 shadow">
+                    <i class="fa-solid fa-floppy-disk"></i> 
+                    <span class="lang-en">Save Notes</span>
+                    <span class="lang-ja hidden">メモを保存</span>
+                </button>
+                
+                <button onclick="window.print()" class="bg-indigo-700 hover:bg-indigo-800 text-white text-xs md:text-sm px-3 py-2 rounded-lg font-medium transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-print"></i> 
+                    <span class="lang-en">Print / PDF</span>
+                    <span class="lang-ja hidden">印刷 / PDF</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <nav class="bg-white border-b border-slate-200 shadow-sm sticky top-[73px] z-40">
+        <div class="max-w-6xl mx-auto px-4 flex overflow-x-auto gap-2 md:gap-6">
+            <button onclick="switchTab('guidance')" id="tab-guidance" class="tab-btn active py-3 px-3 text-xs md:text-sm flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-lightbulb text-amber-500"></i> 
+                <span class="lang-en">How You Can Prepare</span>
+                <span class="lang-ja hidden">心構えと準備アドバイス</span>
+            </button>
+            <button onclick="switchTab('education')" id="tab-education" class="tab-btn py-3 px-3 text-xs md:text-sm flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-graduation-cap text-blue-500"></i> 
+                <span class="lang-en">Topic 1: Education</span>
+                <span class="lang-ja hidden">トピック1: 教育・学校生活</span>
+            </button>
+            <button onclick="switchTab('environment')" id="tab-environment" class="tab-btn py-3 px-3 text-xs md:text-sm flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-leaf text-emerald-500"></i> 
+                <span class="lang-en">Topic 2: Environment</span>
+                <span class="lang-ja hidden">トピック2: 環境問題・意識</span>
+            </button>
+            <button onclick="switchTab('hobbies')" id="tab-hobbies" class="tab-btn py-3 px-3 text-xs md:text-sm flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-gamepad text-purple-500"></i> 
+                <span class="lang-en">Topic 3: Hobbies</span>
+                <span class="lang-ja hidden">トピック3: 趣味・自由時間</span>
+            </button>
+            <button onclick="switchTab('cheatsheet')" id="tab-cheatsheet" class="tab-btn py-3 px-3 text-xs md:text-sm flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-comments text-indigo-500"></i> 
+                <span class="lang-en">Cheat Sheet</span>
+                <span class="lang-ja hidden">英会話即効フレーズ</span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-4 py-6 flex-grow w-full">
+
+        <!-- Status Notification Banner -->
+        <div id="status-message" class="hidden mb-4 p-3 rounded-lg bg-emerald-100 text-emerald-800 border border-emerald-300 text-xs md:text-sm flex items-center justify-between">
+            <span class="flex items-center gap-2"><i class="fa-solid fa-circle-check"></i> <span id="status-text">Notes saved!</span></span>
+            <button onclick="dismissStatus()" class="text-emerald-800 font-bold">&times;</button>
+        </div>
+
+        <section id="content-guidance" class="space-y-6">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <h2 class="text-xl font-bold text-indigo-900 border-b pb-3 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-user-astronaut text-indigo-600"></i> 
+                    <span class="lang-en">1. How You - as a Japanese Student - Can Prepare for the 1-Hour Session</span>
+                    <span class="lang-ja hidden">1. 交流会を自信を持って楽しむためのあなたへのアドバイス</span>
+                </h2>
+                
+                <div class="grid md:grid-cols-2 gap-6 text-sm">
+                    <div class="space-y-4">
+                        <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r">
+                            <p class="font-bold text-amber-900 flex items-center gap-2">
+                                <i class="fa-solid fa-heart"></i>
+                                <span class="lang-en">Your Most Important Mindset</span>
+                                <span class="lang-ja hidden">一番大切なマインドセット（心構え）</span>
+                            </p>
+                            <p class="text-slate-700 text-xs mt-2 leading-relaxed">
+                                <span class="lang-en">Students at Rishikul Vidyapeeth Sonepat are fluent and energetic English speakers! But don't feel intimidated. You do NOT need to speak perfect English. Expressing your real feelings and listening with enthusiasm is what matters most!</span>
+                                <span class="lang-ja hidden">リシクル・ビディヤピート校の生徒の皆さんは英語が得意でとてもフレンドリーです！でも緊張する必要はありません。完璧な英語を話す必要は全くありません！自分の想いを伝えようとすること、相手の話を笑顔で聴くことが何より大切です。</span>
+                            </p>
+                        </div>
+
+                        <div class="space-y-3">
+                            <h3 class="font-bold text-indigo-800 text-base border-b pb-1">
+                                <span class="lang-en">Key Strategies for You:</span>
+                                <span class="lang-ja hidden">会話をスムーズにする4つのコツ：</span>
+                            </h3>
+
+                            <div class="flex items-start gap-3 bg-slate-50 p-3 rounded-lg border">
+                                <div class="bg-indigo-100 text-indigo-700 font-bold p-2 rounded text-xs shrink-0">01</div>
+                                <div class="text-xs text-slate-700">
+                                    <strong class="text-slate-900 block font-semibold mb-0.5">
+                                        <span class="lang-en">Pre-write Your Ideas in This App</span>
+                                        <span class="lang-ja hidden">事前準備ノートを活用する</span>
+                                    </strong>
+                                    <span class="lang-en">Fill out the sub-question fields in this app beforehand. Having your sentences written down gives you instant confidence on screen.</span>
+                                    <span class="lang-ja hidden">このアプリの質問欄にあらかじめ自分の考えを書き込んでおきましょう。画面上でメモを見ながら話せるので安心です。</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-3 bg-slate-50 p-3 rounded-lg border">
+                                <div class="bg-indigo-100 text-indigo-700 font-bold p-2 rounded text-xs shrink-0">02</div>
+                                <div class="text-xs text-slate-700">
+                                    <strong class="text-slate-900 block font-semibold mb-0.5">
+                                        <span class="lang-en">Bring Physical Props to Show</span>
+                                        <span class="lang-ja hidden">実物（プロップ）をカメラで見せる</span>
+                                    </strong>
+                                    <span class="lang-en">Hold up items on camera! Show your Bento box, stationery, club gear, textbooks, or eco-bags. Visuals break language barriers immediately.</span>
+                                    <span class="lang-ja hidden">お弁当箱、部活の道具、教科書、マイボトルなどをカメラに見せましょう！言葉だけでなく視覚的な要素があると一気に盛り上がります。</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-3 bg-slate-50 p-3 rounded-lg border">
+                                <div class="bg-indigo-100 text-indigo-700 font-bold p-2 rounded text-xs shrink-0">03</div>
+                                <div class="text-xs text-slate-700">
+                                    <strong class="text-slate-900 block font-semibold mb-0.5">
+                                        <span class="lang-en">Use the Easy "PREP" Formula</span>
+                                        <span class="lang-ja hidden">PREP法でわかりやすく伝える</span>
+                                    </strong>
+                                    <span class="lang-en">Structure longer thoughts with: <strong>P</strong>oint &rarr; <strong>R</strong>eason &rarr; <strong>E</strong>xample &rarr; <strong>P</strong>oint.</span>
+                                    <span class="lang-ja hidden">「結論（Point）&rarr; 理由（Reason）&rarr; 具体例（Example）&rarr; まとめ（Point）」の順で話すと英語がクリアに伝わります。</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-3 bg-slate-50 p-3 rounded-lg border">
+                                <div class="bg-indigo-100 text-indigo-700 font-bold p-2 rounded text-xs shrink-0">04</div>
+                                <div class="text-xs text-slate-700">
+                                    <strong class="text-slate-900 block font-semibold mb-0.5">
+                                        <span class="lang-en">Active Listening & Quick Reactions</span>
+                                        <span class="lang-ja hidden">リアクション（相づち）を大きめに！</span>
+                                    </strong>
+                                    <span class="lang-en">Nod and use phrases like <em>"That's amazing!", "I see!", "Really?"</em> to keep the energy high.</span>
+                                    <span class="lang-ja hidden">うなずいたり、"That's awesome!" や "I see!" と大きめに反応するだけで、会話が何倍も盛り上がります。</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recommended Schedule Timeline -->
+                    <div class="space-y-4">
+                        <div class="bg-indigo-50 border border-indigo-200 p-4 rounded-xl">
+                            <h3 class="font-bold text-indigo-900 text-sm mb-3 flex items-center gap-2">
+                                <i class="fa-solid fa-clock text-indigo-600"></i>
+                                <span class="lang-en">Suggested 60-Minute Session Flow</span>
+                                <span class="lang-ja hidden">おすすめの60分間のタイムスケジュール</span>
+                            </h3>
+
+                            <div class="space-y-3 text-xs">
+                                <div class="bg-white p-3 rounded-lg border flex gap-3 items-center">
+                                    <span class="bg-indigo-600 text-white font-bold px-2.5 py-1 rounded">00-10m</span>
+                                    <div>
+                                        <strong class="block text-slate-800">Warm-up & Self Introductions</strong>
+                                        <span class="text-slate-500">Name, grade, hobbies, and short greetings. / 挨拶と自己紹介</span>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white p-3 rounded-lg border flex gap-3 items-center">
+                                    <span class="bg-blue-600 text-white font-bold px-2.5 py-1 rounded">10-25m</span>
+                                    <div>
+                                        <strong class="block text-slate-800">Topic 1: Education System</strong>
+                                        <span class="text-slate-500">Schedules, school lunch, cleaning, club life. / 学校生活と教育</span>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white p-3 rounded-lg border flex gap-3 items-center">
+                                    <span class="bg-emerald-600 text-white font-bold px-2.5 py-1 rounded">25-40m</span>
+                                    <div>
+                                        <strong class="block text-slate-800">Topic 2: Environmental Awareness</strong>
+                                        <span class="text-slate-500">Recycling habits, My Bottle, "Mottainai". / 環境問題とエコ活動</span>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white p-3 rounded-lg border flex gap-3 items-center">
+                                    <span class="bg-purple-600 text-white font-bold px-2.5 py-1 rounded">40-55m</span>
+                                    <div>
+                                        <strong class="block text-slate-800">Topic 3: Hobbies & Free Time</strong>
+                                        <span class="text-slate-500">Anime, music, sports, games, culture. / 趣味・ポップカルチャー</span>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white p-3 rounded-lg border flex gap-3 items-center">
+                                    <span class="bg-amber-600 text-white font-bold px-2.5 py-1 rounded">55-60m</span>
+                                    <div>
+                                        <strong class="block text-slate-800">Closing & Photo Time</strong>
+                                        <span class="text-slate-500">Thank you messages and group screenshot. / 終わりの挨拶と記念撮影</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border p-4 rounded-xl bg-slate-50 text-xs space-y-2">
+                            <p class="font-bold text-slate-800 flex items-center gap-2">
+                                <i class="fa-solid fa-suitcase"></i>
+                                <span class="lang-en">Recommended Items to Prepare Near Your Desk:</span>
+                                <span class="lang-ja hidden">デスクの横に準備しておくと良いおすすめグッズ：</span>
+                            </p>
+                            <ul class="list-disc pl-5 text-slate-600 space-y-1">
+                                <li><span class="lang-en">Your school uniform badge, tie, or club jersey</span><span class="lang-ja hidden">制服のネクタイ、部活のユニフォームやジャージ</span></li>
+                                <li><span class="lang-en">Your Bento box or reusable water bottle (My Bottle)</span><span class="lang-ja hidden">愛用のお弁当箱やマイボトル</span></li>
+                                <li><span class="lang-en">A favorite manga, anime merch, or photo on your phone</span><span class="lang-ja hidden">好きな漫画、アニメグッズ、休日に撮った写真</span></li>
+                                <li><span class="lang-en">A pen and this digital workbook open on your screen!</span><span class="lang-ja hidden">筆記用具とこの準備ワークブック！</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="content-education" class="space-y-6 hidden">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <div class="flex items-center gap-3 border-b pb-4 mb-6">
+                    <div class="bg-blue-100 p-3 rounded-lg text-blue-600">
+                        <i class="fa-solid fa-graduation-cap text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-800">
+                            <span class="lang-en">Topic 1: Education System</span>
+                            <span class="lang-ja hidden">トピック1: 教育・学校生活</span>
+                        </h2>
+                        <p class="text-xs text-slate-500">
+                            <span class="lang-en">Prepare your thoughts on daily schedules, school culture, cleaning duties, and club activities!</span>
+                            <span class="lang-ja hidden">あなたの日々の学校スケジュール、掃除、お弁当、部活動について準備しましょう！</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <!-- Questions & Sub-questions Input Fields -->
+                    <div class="space-y-6">
+                        <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2 border-b pb-2">
+                            <i class="fa-solid fa-pen-to-square text-blue-500"></i>
+                            <span class="lang-en">Sub-Questions & Your Prepared Answers</span>
+                            <span class="lang-ja hidden">サブ質問とあなたの回答準備メモ</span>
+                        </h3>
+
+                        <!-- Question Group 1 -->
+                        <div class="bg-slate-50 border rounded-xl p-4 space-y-4">
+                            <h4 class="font-bold text-xs text-blue-900 uppercase tracking-wide">1. Daily Schedule & School Life</h4>
+                            
+                            <div class="space-y-1.5">
+                                <label for="edu-sub-1a" class="block text-xs font-semibold text-slate-700">
+                                    <span class="lang-en">1a. What time does your school day start and end? How do you get to school?</span>
+                                    <span class="lang-ja hidden">1a. 登校・下校時間は何時ですか？登校方法は何ですか（電車、自転車など）？</span>
+                                </label>
+                                <textarea id="edu-sub-1a" oninput="saveNote('edu-sub-1a')" placeholder="Type your answer in English here..." class="w-full text-xs p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none h-16 bg-white"></textarea>
+                            </div>
+
+                            <div class="space-y-1.5">
+                                <label for="edu-sub-1b" class="block text-xs font-semibold text-slate-700">
+                                    <span class="lang-en">1b. How many classes do you have a day? What is your favorite subject and why?</span>
+                                    <span class="lang-ja hidden">1b. 1日何コマ授業がありますか？一番好きな教科とその理由は何ですか？</span>
+                                </label>
+                                <textarea id="edu-sub-1b" oninput="saveNote('edu-sub-1b')" placeholder="Type your answer in English here..." class="w-full text-xs p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none h-16 bg-white"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Question Group 2 -->
+                        <div class="bg-slate-50 border rounded-xl p-4 space-y-4">
+                            <h4 class="font-bold text-xs text-blue-900 uppercase tracking-wide">2. Lunch & Cleaning Culture (Osoji)</h4>
+                            
+                            <div class="space-y-1.5">
+                                <label for="edu-sub-2a" class="block text-xs font-semibold text-slate-700">
+                                    <span class="lang-en">2a. What do you usually eat for lunch (Kyoshoku/Bento)? Who makes it for you?</span>
+                                    <span class="lang-ja hidden">2a. お昼ご飯（給食やお弁当）は何を食べますか？誰が作ってくれますか？</span>
+                                </label>
+                                <textarea id="edu-sub-2a" oninput="saveNote('edu-sub-2a')" placeholder="Type your answer in English here..." class="w-full text-xs p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none h-16 bg-white"></textarea>
+                            </div>
+
+                            <div class="space-y-1.5">
+                                <label for="edu-sub-2b" class="block text-xs font-semibold text-slate-700">
+                                    <span class="lang-en">2b. How do students clean the classrooms in Japan? How is this different from other countries?</span>
+                                    <span class="lang-ja hidden">2b. 日本の生徒はどのように掃除をしますか？海外との違いは何だと思いますか？</span>
+                                </label>
+                                <textarea id="edu-sub-2b" oninput="saveNote('edu-sub-2b')" placeholder="Type your answer in English here..." class="w-full text-xs p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none h-16 bg-white"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Question Group 3 -->
+                        <div class="bg-slate-50 border rounded-xl p-4 space-y-4">
+                            <h4 class="font-bold text-xs text-blue-900 uppercase tracking-wide">3. Club Activities & Events</h4>
+                            
+                            <div class="space-y-1.5">
+                                <label for="edu-sub-3a" class="block text-xs font-semibold text-slate-700">
+                                    <span class="lang-en">3a. What school club (Bukatsu) do you belong to? What do you practice?</span>
+                                    <span class="lang-ja hidden">3a. 何部（部活動）に所属していますか？どんな練習をしていますか？</span>
+                                </label>
+                                <textarea id="edu-sub-3a" oninput="saveNote('edu-sub-3a')" placeholder="Type your answer in English here..." class="w-full text-xs p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none h-16 bg-white"></textarea>
+                            </div>
+
+                            <div class="space-y-1.5">
+                                <label for="edu-sub-3b" class="block text-xs font-semibold text-slate-700">
+                                    <span class="lang-en">3b. What is your favorite school event (e.g., Cultural Festival, Sports Day)?</span>
+                                    <span class="lang-ja hidden">3b. 一番好きな学校行事は何ですか（文化祭、体育祭など）？</span>
+                                </label>
+                                <textarea id="edu-sub-3b" oninput="saveNote('edu-sub-3b')" placeholder="Type your answer in English here..." class="w-full text-xs p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none h-16 bg-white"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Model Answers & Vocabulary Bank -->
+                    <div class="space-y-6">
+                        <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2 border-b pb-2">
+                            <i class="fa-solid fa-lightbulb text-amber-500"></i>
+                            <span class="lang-en">Model Answers & Useful Hints</span>
+                            <span class="lang-ja hidden">模範解答サンプルと会話のヒント</span>
+                        </h3>
+
+                        <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 text-xs space-y-4">
+                            <div>
+                                <strong class="text-blue-900 font-semibold block mb-1">Model Answer 1: Daily Schedule</strong>
+                                <p class="text-slate-700 italic">"My school day starts at 8:30 AM. I commute by train for 30 minutes. We have six 50-minute periods every day. My favorite subject is World History because I love learning about different cultures!"</p>
+                                <p class="text-slate-500 mt-1">（学校は8:30に始まり、電車で30分通学します。毎日50分授業が6時間あります。異文化を学ぶのが好きなので世界史が一番好きです！）</p>
+                            </div>
+
+                            <div class="border-t border-blue-200 pt-3">
+                                <strong class="text-blue-900 font-semibold block mb-1">Model Answer 2: Cleaning (Osoji) Culture</strong>
+                                <p class="text-slate-700 italic">"In Japan, students clean their own classrooms and hallways for 15 minutes every afternoon. We don't have professional cleaners. It teaches us responsibility and teamwork!"</p>
+                                <p class="text-slate-500 mt-1">（日本では生徒が自分たちで教室や廊下を毎日15分掃除します。責任感とチームワークが身につきます！）</p>
+                            </div>
+
+                            <div class="border-t border-blue-200 pt-3">
+                                <strong class="text-blue-900 font-semibold block mb-1">Model Answer 3: School Clubs (Bukatsu)</strong>
+                                <p class="text-slate-700 italic">"I belong to the Badminton Club. We practice almost every day after school until 6:00 PM. Bukatsu is a huge part of high school life in Japan."</p>
+                                <p class="text-slate-500 mt-1">（私はバドミントン部に所属しており、放課後6時まで練習しています。部活は高校生活で大きな存在です。）</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-100 border rounded-xl p-4">
+                            <h4 class="font-bold text-slate-800 text-xs mb-2 flex items-center gap-1.5">
+                                <i class="fa-solid fa-book text-indigo-600"></i>
+                                <span class="lang-en">Topic 1 Keywords & Vocabulary Bank</span>
+                                <span class="lang-ja hidden">教育・学校生活の便利単語集</span>
+                            </h4>
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div class="bg-white p-2 rounded border"><strong>Commute:</strong> 通学する</div>
+                                <div class="bg-white p-2 rounded border"><strong>Homeroom:</strong> HR / 担任の教室</div>
+                                <div class="bg-white p-2 rounded border"><strong>Periods / Classes:</strong> 授業コマ</div>
+                                <div class="bg-white p-2 rounded border"><strong>Responsibility:</strong> 責任感</div>
+                                <div class="bg-white p-2 rounded border"><strong>Bento Box:</strong> 手作り弁当</div>
+                                <div class="bg-white p-2 rounded border"><strong>Cultural Festival:</strong> 文化祭</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="content-environment" class="space-y-6 hidden">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <div class="flex items-center gap-3 border-b pb-4 mb-6">
+                    <div class="bg-emerald-100 p-3 rounded-lg text-emerald-600">
+                        <i class="fa-solid fa-leaf text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-800">
+                            <span class="lang-en">Topic 2: Environmental Awareness</span>
+                            <span class="lang-ja hidden">トピック2: 環境問題・環境意識</span>
+                        </h2>
+                        <p class="text-xs text-slate-500">
+                            <span class="lang-en">Reflect on recycling, saving energy, eco-bottles, and the spirit of "Mottainai"!</span>
+                            <span class="lang-ja hidden">ゴミの分別、省エネ、マイボトル、そして「もったいない」の心について考えをまとめましょう！</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <!-- Questions & Sub-questions Input Fields -->
+                    <div class="space-y-6">
+                        <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2 border-b pb-2">
+                            <i class="fa-solid fa-pen-to-square text-emerald-500"></i>
+                            <span class="lang-en">Sub-Questions & Your Prepared Answers</span>
+                            <span class="lang-ja hidden">サブ質問とあなたの回答準備メモ</span>
+                        </h3>
+
+                        <!-- Question Group 1 -->
+                        <div class="bg-slate-50 border rounded-xl p-4 space-y-4">
+                            <h4 class="font-bold text-xs text-emerald-900 uppercase tracking-wide">1. Garbage Separation & Recycling</h4>
+                            
+                            <div class="space-y-1.5">
+                                <label for="env-sub-1a" class="block text-xs font-semibold text-slate-700">
+                                    <span class="lang-en">1a. How do you separate trash at your home or school? (e.g., Burnable, PET bottles, Cans)</span>
+                                    <span class="lang-ja hidden">1a. 家や学校でどのようにゴミを分別していますか（可燃ゴミ、ペットボトル、缶など）？</span>
+                                </label>
+                                <textarea id="env-sub-1a" oninput="saveNote('env-sub-1a')" placeholder="Type your answer in English here..." class="w-full text-xs p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:outline-none h-16 bg-white"></textarea>
+                            </div>
+
+                            <div class="space-y-1.5">
+                                <label for="env-sub-1b" class="block text-xs font-semibold text-slate-700">
+                                    <span class="lang-en">1b. Is trash separation strict in your neighborhood? What happens to plastic waste?</span>
+                                    <span class="lang-ja hidden">1b. あなたの地域での分別ルールは厳しいですか？プラスチックゴミはどう処理されますか？</span>
+                                </label>
+                                <textarea id="env-sub-1b" oninput="saveNote('env-sub-1b')" placeholder="Type your answer in English here..." class="w-full text-xs p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:outline-none h-16 bg-white"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Question Group 2 -->
+                        <div class="bg-slate-50 border rounded-xl p-4 space-y-4">
+                            <h4 class="font-bold text-xs text-emerald-900 uppercase tracking-wide">2. Daily Eco-Friendly Habits</h4>
+                            
+                            <div class="space-y-1.5">
+                                <label for="env-sub-2a" class="block text-xs font-semibold text-slate-700">
+                                    <span class="lang-en">2a. What eco habits do you practice daily? (e.g., Carrying "My Bottle", Eco-bag, turning off lights)</span>
+                                    <span class="lang-ja hidden">2a. 普段行っているエコ活動は何ですか（マイボトル所持、エコバッグ使用、こまめな消灯など）？</span>
+                                </label>
+                                <textarea id="env-sub-2a" oninput="saveNote('env-sub-2a')" placeholder="Type your answer in English here..." class="w-full text-xs p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:outline-none h-16 bg-white"></textarea>
+                            </div>
+
+                            <div class="space-y-1.5">
+                                <label for="env-sub-2b" class="block text-xs font-semibold text-slate-700">
+                                    <span class="lang-en">2b. What eco activities does your school do? (e.g., Cool Biz, saving electricity, planting trees)</span>
+                                    <span class="lang-ja hidden">2b. 学校全体で行っている環境活動（クールビズ、節電、緑化活動など）はありますか？</span>
+                                </label>
+                                <textarea id="env-sub-2b" oninput="saveNote('env-sub-2b')" placeholder="Type your answer in English here..." class="w-full text-xs p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:outline-none h-16 bg-white"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Question Group 3 -->
+                        <div class="bg-slate-50 border rounded-xl p-4 space-y-4">
+                            <h4 class="font-bold text-xs text-emerald-900 uppercase tracking-wide">3. The Concept of "MOTTAINAI"</h4>
+                            
+                            <div class="space-y-1.5">
+                                <label for="env-sub-3a" class="block text-xs font-semibold text-slate-700">
+                                    <span class="lang-en">3a. How would you explain the Japanese word "Mottainai" in simple English?</span>
+                                    <span class="lang-ja hidden">3a. 「もったいない」という言葉を簡単な英語でどう説明しますか？</span>
+                                </label>
+                                <textarea id="env-sub-3a" oninput="saveNote('env-sub-3a')" placeholder="Type your answer in English here..." class="w-full text-xs p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:outline-none h-16 bg-white"></textarea>
+                            </div>
+
+                            <div class="space-y-1.5">
+                                <label for="env-sub-3b" class="block text-xs font-semibold text-slate-700">
+                                    <span class="lang-en">3b. Give one personal example where you felt or practiced "Mottainai" in your life.</span>
+                                    <span class="lang-ja hidden">3b. 自分の生活の中で「もったいない」と感じたり意識したエピソードを1つ挙げてください。</span>
+                                </label>
+                                <textarea id="env-sub-3b" oninput="saveNote('env-sub-3b')" placeholder="Type your answer in English here..." class="w-full text-xs p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:outline-none h-16 bg-white"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Model Answers & Vocabulary Bank -->
+                    <div class="space-y-6">
+                        <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2 border-b pb-2">
+                            <i class="fa-solid fa-lightbulb text-amber-500"></i>
+                            <span class="lang-en">Model Answers & Useful Hints</span>
+                            <span class="lang-ja hidden">模範解答サンプルと会話のヒント</span>
+                        </h3>
+
+                        <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-xs space-y-4">
+                            <div>
+                                <strong class="text-emerald-900 font-semibold block mb-1">Model Answer 1: Sorting Trash</strong>
+                                <p class="text-slate-700 italic">"In my hometown, trash separation is very strict. We divide garbage into burnables, plastic containers, glass bottles, and paper. This makes recycling much more effective."</p>
+                                <p class="text-slate-500 mt-1">（私の街では分別のルールが非常に厳しく、可燃ゴミ、プラ容器、ビン、紙類に分けます。リサイクル率が高まります。）</p>
+                            </div>
+
+                            <div class="border-t border-emerald-200 pt-3">
+                                <strong class="text-emerald-900 font-semibold block mb-1">Model Answer 2: Eco Habits (My Bottle)</strong>
+                                <p class="text-slate-700 italic">"I bring my own stainless steel water bottle to school every day instead of buying plastic bottles. It keeps drinks cold and reduces plastic waste!"</p>
+                                <p class="text-slate-500 mt-1">（ペットボトルを買わずに、マイボトルを毎日持参しています。プラゴミ削減に繋がります！）</p>
+                            </div>
+
+                            <div class="border-t border-emerald-200 pt-3">
+                                <strong class="text-emerald-900 font-semibold block mb-1">Model Answer 3: Explaining "Mottainai"</strong>
+                                <p class="text-slate-700 italic">"'Mottainai' is a Japanese word that means 'it's a waste.' It encourages us to respect objects, reduce waste, and reuse items as much as possible."</p>
+                                <p class="text-slate-500 mt-1">（「もったいない」は物を大切にし、リデュース・リユースを促す素晴らしい日本の考え方です。）</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-100 border rounded-xl p-4">
+                            <h4 class="font-bold text-slate-800 text-xs mb-2 flex items-center gap-1.5">
+                                <i class="fa-solid fa-book text-emerald-600"></i>
+                                <span class="lang-en">Topic 2 Keywords & Vocabulary Bank</span>
+                                <span class="lang-ja hidden">環境問題の便利単語集</span>
+                            </h4>
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div class="bg-white p-2 rounded border"><strong>Separate trash:</strong> 分別する</div>
+                                <div class="bg-white p-2 rounded border"><strong>Burnable waste:</strong> 可燃ゴミ</div>
+                                <div class="bg-white p-2 rounded border"><strong>Single-use plastic:</strong> 使い捨てプラ</div>
+                                <div class="bg-white p-2 rounded border"><strong>Reusable bottle:</strong> マイボトル</div>
+                                <div class="bg-white p-2 rounded border"><strong>Reduce & Reuse:</strong> 削減と再利用</div>
+                                <div class="bg-white p-2 rounded border"><strong>Cherish / Respect:</strong> 大切にする</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="content-hobbies" class="space-y-6 hidden">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <div class="flex items-center gap-3 border-b pb-4 mb-6">
+                    <div class="bg-purple-100 p-3 rounded-lg text-purple-600">
+                        <i class="fa-solid fa-gamepad text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-800">
+                            <span class="lang-en">Topic 3: Hobbies & Free Time</span>
+                            <span class="lang-ja hidden">トピック3: 趣味・自由時間・ポップカルチャー</span>
+                        </h2>
+                        <p class="text-xs text-slate-500">
+                            <span class="lang-en">Share what you love! Anime, manga, games, music, sports, and weekend hangouts.</span>
+                            <span class="lang-ja hidden">あなたの好きなことをシェアしましょう！アニメ、漫画、ゲーム、音楽、スポーツ、週末の過ごし方について話そう！</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <!-- Questions & Sub-questions Input Fields -->
+                    <div class="space-y-6">
+                        <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2 border-b pb-2">
+                            <i class="fa-solid fa-pen-to-square text-purple-500"></i>
+                            <span class="lang-en">Sub-Questions & Your Prepared Answers</span>
+                            <span class="lang-ja hidden">サブ質問とあなたの回答準備メモ</span>
+                        </h3>
+
+                        <!-- Question Group 1 -->
+                        <div class="bg-slate-50 border rounded-xl p-4 space-y-4">
+                            <h4 class="font-bold text-xs text-purple-900 uppercase tracking-wide">1. Free Time & Weekend Activities</h4>
+                            
+                            <div class="space-y-1.5">
+                                <label for="hob-sub-1a" class="block text-xs font-semibold text-slate-700">
+                                    <span class="lang-en">1a. What do you usually do on weekends or after school?</span>
+                                    <span class="lang-ja hidden">1a. 週末や放課後は普段何をして過ごしていますか？</span>
+                                </label>
+                                <textarea id="hob-sub-1a" oninput="saveNote('hob-sub-1a')" placeholder="Type your answer in English here..." class="w-full text-xs p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none h-16 bg-white"></textarea>
+                            </div>
+
+                            <div class="space-y-1.5">
+                                <label for="hob-sub-1b" class="block text-xs font-semibold text-slate-700">
+                                    <span class="lang-en">1b. Where do you like to go with your friends? (e.g., Cafes, shopping malls, parks)</span>
+                                    <span class="lang-ja hidden">1b. 友達と遊びに行くならどこが好きですか（カフェ、ショッピングモール、公園など）？</span>
+                                </label>
+                                <textarea id="hob-sub-1b" oninput="saveNote('hob-sub-1b')" placeholder="Type your answer in English here..." class="w-full text-xs p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none h-16 bg-white"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Question Group 2 -->
+                        <div class="bg-slate-50 border rounded-xl p-4 space-y-4">
+                            <h4 class="font-bold text-xs text-purple-900 uppercase tracking-wide">2. Anime, Manga, Games & Music</h4>
+                            
+                            <div class="space-y-1.5">
+                                <label for="hob-sub-2a" class="block text-xs font-semibold text-slate-700">
+                                    <span class="lang-en">2a. What anime, manga, or video games are most popular among Japanese teenagers right now?</span>
+                                    <span class="lang-ja hidden">2a. 今日本の高校生の間で一番流行っているアニメ・漫画・ゲームは何ですか？</span>
+                                </label>
+                                <textarea id="hob-sub-2a" oninput="saveNote('hob-sub-2a')" placeholder="Type your answer in English here..." class="w-full text-xs p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none h-16 bg-white"></textarea>
+                            </div>
+
+                            <div class="space-y-1.5">
+                                <label for="hob-sub-2b" class="block text-xs font-semibold text-slate-700">
+                                    <span class="lang-en">2b. What is your personal favorite anime or music artist? How would you introduce it?</span>
+                                    <span class="lang-ja hidden">2b. あなたが個人的に一番好きなアニメや音楽アーティストは何ですか？どう紹介しますか？</span>
+                                </label>
+                                <textarea id="hob-sub-2b" oninput="saveNote('hob-sub-2b')" placeholder="Type your answer in English here..." class="w-full text-xs p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none h-16 bg-white"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Question Group 3 -->
+                        <div class="bg-slate-50 border rounded-xl p-4 space-y-4">
+                            <h4 class="font-bold text-xs text-purple-900 uppercase tracking-wide">3. Questions to Ask Indian Students</h4>
+                            
+                            <div class="space-y-1.5">
+                                <label for="hob-sub-3a" class="block text-xs font-semibold text-slate-700">
+                                    <span class="lang-en">3a. What question do you want to ask them about Cricket or Bollywood movies?</span>
+                                    <span class="lang-ja hidden">3a. インドの生徒にクリケットやボリウッド映画についてどんな質問をしたいですか？</span>
+                                </label>
+                                <textarea id="hob-sub-3a" oninput="saveNote('hob-sub-3a')" placeholder="Type your answer in English here..." class="w-full text-xs p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none h-16 bg-white"></textarea>
+                            </div>
+
+                            <div class="space-y-1.5">
+                                <label for="hob-sub-3b" class="block text-xs font-semibold text-slate-700">
+                                    <span class="lang-en">3b. What Indian food or culture are you curious to learn about?</span>
+                                    <span class="lang-ja hidden">3b. インドの食文化や生活についてどんなことを知りたいですか？</span>
+                                </label>
+                                <textarea id="hob-sub-3b" oninput="saveNote('hob-sub-3b')" placeholder="Type your answer in English here..." class="w-full text-xs p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none h-16 bg-white"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Model Answers & Vocabulary Bank -->
+                    <div class="space-y-6">
+                        <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2 border-b pb-2">
+                            <i class="fa-solid fa-lightbulb text-amber-500"></i>
+                            <span class="lang-en">Model Answers & Useful Hints</span>
+                            <span class="lang-ja hidden">模範解答サンプルと会話のヒント</span>
+                        </h3>
+
+                        <div class="bg-purple-50 border border-purple-200 rounded-xl p-4 text-xs space-y-4">
+                            <div>
+                                <strong class="text-purple-900 font-semibold block mb-1">Model Answer 1: Weekend Hobbies</strong>
+                                <p class="text-slate-700 italic">"On weekends, I love hanging out with my friends at local cafes or playing badminton. I also enjoy listening to J-Pop music like YOASOBI!"</p>
+                                <p class="text-slate-500 mt-1">（週末は友達とカフェに行ったり、バドミントンをするのが好きです。YOASOBIのようなJ-POPもよく聴きます！）</p>
+                            </div>
+
+                            <div class="border-t border-purple-200 pt-3">
+                                <strong class="text-purple-900 font-semibold block mb-1">Model Answer 2: Introducing Anime</strong>
+                                <p class="text-slate-700 italic">"An anime I strongly recommend is 'Demon Slayer'. The animation is breathtaking and the story is about family bonds!"</p>
+                                <p class="text-slate-500 mt-1">（おすすめのアニメは『鬼滅の刃』です。映像が美しく、家族の絆を描いた素晴らしいストーリーです。）</p>
+                            </div>
+
+                            <div class="border-t border-purple-200 pt-3">
+                                <strong class="text-purple-900 font-semibold block mb-1">Model Answer 3: Asking Indian Peers</strong>
+                                <p class="text-slate-700 italic">"I know Cricket is super popular in India! Do you play cricket at school? Also, what kind of Indian snacks or sweets do you recommend?"</p>
+                                <p class="text-slate-500 mt-1">（インドでクリケットが大人気なのは知っています！学校でもプレイしますか？おすすめのお菓子はありますか？）</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-100 border rounded-xl p-4">
+                            <h4 class="font-bold text-slate-800 text-xs mb-2 flex items-center gap-1.5">
+                                <i class="fa-solid fa-book text-purple-600"></i>
+                                <span class="lang-en">Topic 3 Keywords & Vocabulary Bank</span>
+                                <span class="lang-ja hidden">趣味・カルチャーの便利単語集</span>
+                            </h4>
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div class="bg-white p-2 rounded border"><strong>Hang out:</strong> 遊びに行く</div>
+                                <div class="bg-white p-2 rounded border"><strong>Recommend:</strong> おすすめする</div>
+                                <div class="bg-white p-2 rounded border"><strong>Animation / Graphics:</strong> 映像美</div>
+                                <div class="bg-white p-2 rounded border"><strong>Cricket:</strong> クリケット</div>
+                                <div class="bg-white p-2 rounded border"><strong>Bollywood:</strong> ボリウッド映画</div>
+                                <div class="bg-white p-2 rounded border"><strong>Trending:</strong> 流行している</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="content-cheatsheet" class="space-y-6 hidden">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <h2 class="text-xl font-bold text-indigo-900 border-b pb-3 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-comments text-indigo-600"></i> 
+                    <span class="lang-en">Conversation Cheat Sheet & Reactions</span>
+                    <span class="lang-ja hidden">英会話即効フレーズ＆とっさの相づち集</span>
+                </h2>
+
+                <div class="grid md:grid-cols-2 gap-6 text-sm">
+                    <div class="space-y-4">
+                        <div class="border rounded-xl p-4 bg-indigo-50/60 space-y-3">
+                            <h3 class="font-bold text-indigo-900 text-xs uppercase tracking-wide flex items-center gap-2">
+                                <i class="fa-solid fa-bolt text-amber-500"></i>
+                                <span class="lang-en">1. Great Reactions to Keep Conversation Flowing</span>
+                                <span class="lang-ja hidden">1. 会話を弾ませる最高の相づち</span>
+                            </h3>
+                            
+                            <ul class="space-y-2 text-xs">
+                                <li class="bg-white p-2.5 rounded-lg border">
+                                    <strong class="text-indigo-900 block font-semibold">"That sounds amazing!"</strong>
+                                    <span class="text-slate-500">（それはすごいですね / 楽しそうですね！）</span>
+                                </li>
+                                <li class="bg-white p-2.5 rounded-lg border">
+                                    <strong class="text-indigo-900 block font-semibold">"Is that so? I didn't know that!"</strong>
+                                    <span class="text-slate-500">（そうなんですか！知らなかったです！）</span>
+                                </li>
+                                <li class="bg-white p-2.5 rounded-lg border">
+                                    <strong class="text-indigo-900 block font-semibold">"That's very similar to Japan!" / "That's quite different!"</strong>
+                                    <span class="text-slate-500">（日本とそっくりですね！ / 日本と結構違いますね！）</span>
+                                </li>
+                                <li class="bg-white p-2.5 rounded-lg border">
+                                    <strong class="text-indigo-900 block font-semibold">"I totally agree with you!"</strong>
+                                    <span class="text-slate-500">（まったく同感です！）</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="border rounded-xl p-4 bg-amber-50/60 space-y-3">
+                            <h3 class="font-bold text-amber-900 text-xs uppercase tracking-wide flex items-center gap-2">
+                                <i class="fa-solid fa-hand text-amber-600"></i>
+                                <span class="lang-en">2. What to Say If You Get Stuck or Don't Hear</span>
+                                <span class="lang-ja hidden">2. 聞き取れなかった・詰まった時のレスキューフレーズ</span>
+                            </h3>
+
+                            <ul class="space-y-2 text-xs">
+                                <li class="bg-white p-2.5 rounded-lg border">
+                                    <strong class="text-amber-900 block font-semibold">"Could you say that again a little slower, please?"</strong>
+                                    <span class="text-slate-500">（もう一度少しゆっくり言っていただけますか？）</span>
+                                </li>
+                                <li class="bg-white p-2.5 rounded-lg border">
+                                    <strong class="text-amber-900 block font-semibold">"Pardon me? What does that word mean?"</strong>
+                                    <span class="text-slate-500">（すみません、その単語はどういう意味ですか？）</span>
+                                </li>
+                                <li class="bg-white p-2.5 rounded-lg border">
+                                    <strong class="text-amber-900 block font-semibold">"Let me check my notes for a second!"</strong>
+                                    <span class="text-slate-500">（ちょっとメモを確認させてください！）</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="border rounded-xl p-4 bg-emerald-50/60 space-y-3">
+                            <h3 class="font-bold text-emerald-900 text-xs uppercase tracking-wide flex items-center gap-2">
+                                <i class="fa-solid fa-earth-asia text-emerald-600"></i>
+                                <span class="lang-en">3. Asking Questions Back to Indian Peers</span>
+                                <span class="lang-ja hidden">3. インドの生徒へ質問を投げ返すフレーズ</span>
+                            </h3>
+
+                            <ul class="space-y-2 text-xs">
+                                <li class="bg-white p-2.5 rounded-lg border">
+                                    <strong class="text-emerald-900 block font-semibold">"How about in India? Is it similar?"</strong>
+                                    <span class="text-slate-500">（インドではどうですか？似ていますか？）</span>
+                                </li>
+                                <li class="bg-white p-2.5 rounded-lg border">
+                                    <strong class="text-emerald-900 block font-semibold">"What is the most popular sport at Rishikul Vidyapeeth?"</strong>
+                                    <span class="text-slate-500">（あなたの学校で一番人気のあるスポーツは何ですか？）</span>
+                                </li>
+                                <li class="bg-white p-2.5 rounded-lg border">
+                                    <strong class="text-emerald-900 block font-semibold">"What kind of Indian food do you recommend for beginners?"</strong>
+                                    <span class="text-slate-500">（初めての人におすすめのインド料理は何ですか？）</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Data Management & Reset -->
+                        <div class="border rounded-xl p-4 bg-slate-100 space-y-3">
+                            <h3 class="font-bold text-slate-800 text-xs flex items-center gap-2">
+                                <i class="fa-solid fa-database text-slate-600"></i>
+                                <span class="lang-en">Local Data Storage Guarantee</span>
+                                <span class="lang-ja hidden">ローカル保存保証・データ管理</span>
+                            </h3>
+                            <p class="text-xs text-slate-600">
+                                <span class="lang-en">All text typed into this workbook is saved directly in your browser's private local storage. No information is sent to external servers.</span>
+                                <span class="lang-ja hidden">このワークブックに入力されたデータはすべてお使いのブラウザ内部（ローカルストレージ）に安全に保存されます。外部サーバーに送信されることはありません。</span>
+                            </p>
+                            <button onclick="clearAllNotes()" class="text-xs bg-red-100 hover:bg-red-200 text-red-700 px-3 py-2 rounded-lg font-medium transition flex items-center gap-2">
+                                <i class="fa-solid fa-trash"></i> 
+                                <span class="lang-en">Reset All My Notes</span>
+                                <span class="lang-ja hidden">すべてのメモをリセット消去</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-800 text-slate-400 text-xs py-6 mt-12 border-t border-slate-700">
+        <div class="max-w-6xl mx-auto px-4 text-center space-y-2">
+            <p>Rishikul Vidyapeeth Sonepat Exchange Support App &bull; Designed for Japanese Exchange Students</p>
+            <p class="text-slate-500">100% Offline-Ready Client-Side Local Storage</p>
+        </div>
+    </footer>
+
+    <script>
+        // Array of all sub-question textarea IDs
+        const ALL_NOTE_IDS = [
+            'edu-sub-1a', 'edu-sub-1b', 'edu-sub-2a', 'edu-sub-2b', 'edu-sub-3a', 'edu-sub-3b',
+            'env-sub-1a', 'env-sub-1b', 'env-sub-2a', 'env-sub-2b', 'env-sub-3a', 'env-sub-3b',
+            'hob-sub-1a', 'hob-sub-1b', 'hob-sub-2a', 'hob-sub-2b', 'hob-sub-3a', 'hob-sub-3b'
+        ];
+
+        let currentLang = 'en'; // Default language
+
+        // Toggle Language Function
+        function toggleLanguage() {
+            if (currentLang === 'en') {
+                currentLang = 'ja';
+                document.querySelectorAll('.lang-en').forEach(el => el.classList.add('hidden'));
+                document.querySelectorAll('.lang-ja').forEach(el => el.classList.remove('hidden'));
+                document.getElementById('lang-btn-text').textContent = 'English に切り替え';
+            } else {
+                currentLang = 'en';
+                document.querySelectorAll('.lang-ja').forEach(el => el.classList.add('hidden'));
+                document.querySelectorAll('.lang-en').forEach(el => el.classList.remove('hidden'));
+                document.getElementById('lang-btn-text').textContent = '日本語に切り替え';
+            }
+        }
+
+        // Switch Navigation Tabs
+        function switchTab(tabId) {
+            document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById('content-' + tabId).classList.remove('hidden');
+            document.getElementById('tab-' + tabId).classList.add('active');
+        }
+
+        // Save single note to localStorage
+        function saveNote(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                localStorage.setItem('rv_prep_note_' + id, el.value);
+                showStatus(currentLang === 'en' ? 'Saved to local device memory!' : '端末にメモが自動保存されました！');
+            }
+        }
+
+        // Save all notes explicitly
+        function saveAllNotes() {
+            ALL_NOTE_IDS.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    localStorage.setItem('rv_prep_note_' + id, el.value);
+                }
+            });
+            showStatus(currentLang === 'en' ? 'All notes successfully saved!' : 'すべてのメモが保存されました！');
+        }
+
+        // Load all saved notes on startup
+        function loadAllNotes() {
+            ALL_NOTE_IDS.forEach(id => {
+                const savedVal = localStorage.getItem('rv_prep_note_' + id);
+                const el = document.getElementById(id);
+                if (savedVal && el) {
+                    el.value = savedVal;
+                }
+            });
+        }
+
+        // Clear all notes
+        function clearAllNotes() {
+            const confirmMsg = currentLang === 'en' 
+                ? "Are you sure you want to delete all your prepared notes?" 
+                : "本当にすべてのメモを消去しますか？";
+            
+            if (confirm(confirmMsg)) {
+                ALL_NOTE_IDS.forEach(id => {
+                    localStorage.removeItem('rv_prep_note_' + id);
+                    const el = document.getElementById(id);
+                    if (el) el.value = '';
+                });
+                showStatus(currentLang === 'en' ? 'All notes deleted.' : 'すべてのメモが消去されました。');
+            }
+        }
+
+        // Status banner helper
+        let statusTimeout;
+        function showStatus(msg) {
+            const banner = document.getElementById('status-message');
+            const textEl = document.getElementById('status-text');
+            textEl.textContent = msg;
+            banner.classList.remove('hidden');
+
+            clearTimeout(statusTimeout);
+            statusTimeout = setTimeout(() => {
+                banner.classList.add('hidden');
+            }, 2500);
+        }
+
+        function dismissStatus() {
+            document.getElementById('status-message').classList.add('hidden');
+        }
+
+        // Page load initialization
+        window.onload = function() {
+            loadAllNotes();
+        };
+    </script>
+</body>
+</html>
+
